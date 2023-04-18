@@ -25,10 +25,10 @@ func NewCommentController(commentService service.CommentService) *CommentControl
 // @summary add comment
 // @description add comment data to the database
 // @tags Comment
-// @produce json
 // @accept json
+// @produce json
 // @param data body model.CommentCreateRequest true "data is mandatory"
-// @succes 200 {object} model.CommentResponse
+// @succes 200 {object} model.SuccessResponse
 // @router /comment/{photoID} [POST]
 func (cc *CommentController) CreateComment(ctx *gin.Context) {
 	var request model.CommentCreateRequest
@@ -100,7 +100,7 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 // @description get all comment data to the database
 // @tags Comment
 // @produce json
-// @succes 200 {object} model.CommentResponse
+// @succes 200 {object} model.SuccessResponse
 // @router /comment [GET]
 func (cc *CommentController) GetAll(ctx *gin.Context) {
 	response, err := cc.commentService.GetAll()
@@ -126,7 +126,7 @@ func (cc *CommentController) GetAll(ctx *gin.Context) {
 // @tags Comment
 // @param commentID path string true "commentID you want to retrieve"
 // @produce json
-// @succes 200 {object} model.CommentResponse
+// @succes 200 {object} model.SuccessResponse
 // @router /comment/{commentID} [GET]
 func (cc *CommentController) GetOne(ctx *gin.Context) {
 	commentID := ctx.Param("commentID")
@@ -153,8 +153,10 @@ func (cc *CommentController) GetOne(ctx *gin.Context) {
 // @description update comment by commentID
 // @tags Comment
 // @param commentID path string true "commentID you want to retrieve"
+// @param data body model.CommentUpdateRequest true "data is mandatory"
+// @accept json
 // @produce json
-// @succes 200 {object} model.CommentUpdateResponse
+// @succes 200 {object} model.SuccessResponse
 // @router /comment/{commentID} [PUT]
 func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	var request model.CommentUpdateRequest
@@ -220,7 +222,7 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 // @tags Comment
 // @param commentID path string true "commentID you want to retrieve"
 // @produce json
-// @succes 200 {object} model.CommentDeleteResponse
+// @succes 200 {object} model.SuccessResponse
 // @router /comment/{commentID} [DELETE]
 func (cc *CommentController) DeleteComment(ctx *gin.Context) {
 	commentID := ctx.Param("commentID")

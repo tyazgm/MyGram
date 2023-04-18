@@ -1,4 +1,202 @@
+definitions:
+  model.CommentCreateRequest:
+    properties:
+      message:
+        type: string
+    required:
+    - message
+    type: object
+  model.CommentUpdateRequest:
+    properties:
+      message:
+        type: string
+    required:
+    - message
+    type: object
+  model.PhotoCreateRequest:
+    properties:
+      caption:
+        type: string
+      photoUrl:
+        type: string
+      title:
+        type: string
+    required:
+    - photoUrl
+    - title
+    type: object
+  model.PhotoUpdateRequest:
+    properties:
+      caption:
+        type: string
+      photo_url:
+        type: string
+      title:
+        type: string
+    required:
+    - photo_url
+    - title
+    type: object
+host: localhost:8080
 info:
   contact: {}
-paths: {}
+  description: Documentation of MyGram API
+  title: MyGram API
+  version: "1.0"
+paths:
+  /comment:
+    get:
+      description: get all comment data to the database
+      produces:
+      - application/json
+      responses: {}
+      summary: get all comment
+      tags:
+      - Comment
+  /comment/{commentID}:
+    delete:
+      description: delete a comment by commentID
+      parameters:
+      - description: commentID you want to retrieve
+        in: path
+        name: commentID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: delete a comment
+      tags:
+      - Comment
+    get:
+      description: get on comment data from comment ID
+      parameters:
+      - description: commentID you want to retrieve
+        in: path
+        name: commentID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: get comment
+      tags:
+      - Comment
+    put:
+      consumes:
+      - application/json
+      description: update comment by commentID
+      parameters:
+      - description: commentID you want to retrieve
+        in: path
+        name: commentID
+        required: true
+        type: string
+      - description: data is mandatory
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.CommentUpdateRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: update comment
+      tags:
+      - Comment
+  /comment/{photoID}:
+    post:
+      consumes:
+      - application/json
+      description: add comment data to the database
+      parameters:
+      - description: data is mandatory
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.CommentCreateRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: add comment
+      tags:
+      - Comment
+  /photo:
+    get:
+      description: get all photo data to the database
+      produces:
+      - application/json
+      responses: {}
+      summary: get all photo
+      tags:
+      - Photo
+    post:
+      consumes:
+      - application/json
+      description: add photo data to the database
+      parameters:
+      - description: data is mandatory
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.PhotoCreateRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: add photo
+      tags:
+      - Photo
+  /photo/{photoID}:
+    delete:
+      description: delete a photo by photoID
+      parameters:
+      - description: photoID you want to retrieve
+        in: path
+        name: photoID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: delete a photo
+      tags:
+      - photo
+    get:
+      description: get on photo data from photo ID
+      parameters:
+      - description: photoID you want to retrieve
+        in: path
+        name: photoID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: get photo
+      tags:
+      - Photo
+    put:
+      consumes:
+      - application/json
+      description: update photo by photoID
+      parameters:
+      - description: photoID you want to retrieve
+        in: path
+        name: photoID
+        required: true
+        type: string
+      - description: data is mandatory
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.PhotoUpdateRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: update photo
+      tags:
+      - photo
 swagger: "2.0"

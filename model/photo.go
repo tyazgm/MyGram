@@ -49,3 +49,7 @@ type PhotoUpdateRequest struct {
 type PhotoUpdateResponse struct {
 	ID string `json:"photo_id"`
 }
+
+type PhotoDeleteResponse struct {
+	ID string `json:"photo_id"`
+}

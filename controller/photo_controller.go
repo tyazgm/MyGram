@@ -19,6 +19,15 @@ func NewPhotoController(photoService service.PhotoService) *PhotoController {
 	}
 }
 
+// CreatePhoto godoc
+// @summary add photo
+// @description add photo data to the database
+// @tags Photo
+// @produce json
+// @accept json
+// @param data body model.PhotoCreateRequest true "data is mandatory"
+// @succes 200 {object} model.SuccessResponse
+// @router /photo [POST]
 func (pc *PhotoController) CreatePhoto(ctx *gin.Context) {
 	var request model.PhotoCreateRequest
 
@@ -74,6 +83,13 @@ func (pc *PhotoController) CreatePhoto(ctx *gin.Context) {
 	})
 }
 
+// GetAll godoc
+// @summary get all photo
+// @description get all photo data to the database
+// @tags Photo
+// @produce json
+// @succes 200 {object} model.SuccessResponse
+// @router /photo [GET]
 func (pc *PhotoController) GetAll(ctx *gin.Context) {
 	response, err := pc.photoService.GetAll()
 	if err != nil {
@@ -92,6 +108,14 @@ func (pc *PhotoController) GetAll(ctx *gin.Context) {
 	})
 }
 
+// GetOne godoc
+// @summary get photo
+// @description get on photo data from photo ID
+// @tags Photo
+// @param photoID path string true "photoID you want to retrieve"
+// @produce json
+// @succes 200 {object} model.SuccessResponse
+// @router /photo/{photoID} [GET]
 func (pc *PhotoController) GetOne(ctx *gin.Context) {
 	photoID := ctx.Param("photoID")
 
@@ -112,6 +136,16 @@ func (pc *PhotoController) GetOne(ctx *gin.Context) {
 	})
 }
 
+// UpdatePhoto godoc
+// @summary update photo
+// @description update photo by photoID
+// @tags photo
+// @param photoID path string true "photoID you want to retrieve"
+// @param data body model.PhotoUpdateRequest true "data is mandatory"
+// @accept json
+// @produce json
+// @succes 200 {object} model.SuccessResponse
+// @router /photo/{photoID} [PUT]
 func (pc *PhotoController) UpdatePhoto(ctx *gin.Context) {
 	var request model.PhotoUpdateRequest
 	photoID := ctx.Param("photoID")
@@ -170,6 +204,14 @@ func (pc *PhotoController) UpdatePhoto(ctx *gin.Context) {
 	})
 }
 
+// DeletePhoto godoc
+// @summary delete a photo
+// @description delete a photo by photoID
+// @tags photo
+// @param photoID path string true "photoID you want to retrieve"
+// @produce json
+// @succes 200 {object} model.SuccessResponse
+// @router /photo/{photoID} [DELETE]
 func (pc *PhotoController) DeletePhoto(ctx *gin.Context) {
 	photoID := ctx.Param("photoID")
 
@@ -196,7 +238,7 @@ func (pc *PhotoController) DeletePhoto(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, model.SuccessResponse{
 		Code:    http.StatusOK,
 		Message: "Photo deleted successfully",
-		Data: model.PhotoUpdateResponse{
+		Data: model.PhotoDeleteResponse{
 			ID: response.ID,
 		},
 	})

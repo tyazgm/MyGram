@@ -15,17 +15,304 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/comment": {
+            "get": {
+                "description": "get all comment data to the database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "get all comment",
+                "responses": {}
+            }
+        },
+        "/comment/{commentID}": {
+            "get": {
+                "description": "get on comment data from comment ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "get comment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "commentID you want to retrieve",
+                        "name": "commentID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
+            "put": {
+                "description": "update comment by commentID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "update comment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "commentID you want to retrieve",
+                        "name": "commentID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "data is mandatory",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CommentUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
+            "delete": {
+                "description": "delete a comment by commentID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "delete a comment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "commentID you want to retrieve",
+                        "name": "commentID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/comment/{photoID}": {
+            "post": {
+                "description": "add comment data to the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "add comment",
+                "parameters": [
+                    {
+                        "description": "data is mandatory",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CommentCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/photo": {
+            "get": {
+                "description": "get all photo data to the database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Photo"
+                ],
+                "summary": "get all photo",
+                "responses": {}
+            },
+            "post": {
+                "description": "add photo data to the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Photo"
+                ],
+                "summary": "add photo",
+                "parameters": [
+                    {
+                        "description": "data is mandatory",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.PhotoCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/photo/{photoID}": {
+            "get": {
+                "description": "get on photo data from photo ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Photo"
+                ],
+                "summary": "get photo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "photoID you want to retrieve",
+                        "name": "photoID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
+            "put": {
+                "description": "update photo by photoID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "photo"
+                ],
+                "summary": "update photo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "photoID you want to retrieve",
+                        "name": "photoID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "data is mandatory",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.PhotoUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
+            "delete": {
+                "description": "delete a photo by photoID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "photo"
+                ],
+                "summary": "delete a photo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "photoID you want to retrieve",
+                        "name": "photoID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "model.CommentCreateRequest": {
+            "type": "object",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.CommentUpdateRequest": {
+            "type": "object",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.PhotoCreateRequest": {
+            "type": "object",
+            "required": [
+                "photoUrl",
+                "title"
+            ],
+            "properties": {
+                "caption": {
+                    "type": "string"
+                },
+                "photoUrl": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.PhotoUpdateRequest": {
+            "type": "object",
+            "required": [
+                "photo_url",
+                "title"
+            ],
+            "properties": {
+                "caption": {
+                    "type": "string"
+                },
+                "photo_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
+	Version:          "1.0",
+	Host:             "localhost:8080",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "MyGram API",
+	Description:      "Documentation of MyGram API",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }
