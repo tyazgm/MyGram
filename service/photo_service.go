@@ -60,3 +60,30 @@ func (ps *PhotoService) GetAll() ([]model.PhotoResponse, error) {
 
 	return photosResponse, nil
 }
+
+func (ps *PhotoService) GetOne(photoID string) (model.PhotoResponse, error) {
+	photosResult, err := ps.photoRepository.FindByID(photoID)
+	if err != nil {
+		return model.PhotoResponse{}, err
+	}
+
+	comments := []model.Comment{}
+	commentsResponse, err := ps.commentRepository.FindByPhotoID(photoID)
+	for _, comment := range commentsResponse {
+		comments = append(comments, model.Comment(comment))
+	}
+	if err != nil {
+		return model.PhotoResponse{}, err
+	}
+
+	return model.PhotoResponse{
+		ID:        photosResult.ID,
+		Title:     photosResult.Title,
+		Caption:   photosResult.Caption,
+		PhotoUrl:  photosResult.PhotoUrl,
+		UserID:    photosResult.UserID,
+		Comments:  comments,
+		CreatedAt: photosResult.CreatedAt,
+		UpdatedAt: photosResult.UpdatedAt,
+	}, nil
+}

@@ -91,3 +91,23 @@ func (pc *PhotoController) GetAll(ctx *gin.Context) {
 		Data:    response,
 	})
 }
+
+func (pc *PhotoController) GetOne(ctx *gin.Context) {
+	photoID := ctx.Param("photoID")
+
+	response, err := pc.photoService.GetOne(photoID)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model.SuccessResponse{
+		Code:    http.StatusOK,
+		Message: "Get photo successfully",
+		Data:    response,
+	})
+}

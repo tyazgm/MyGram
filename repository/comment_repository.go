@@ -3,6 +3,7 @@ package repository
 import (
 	"MyGram/model"
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -75,4 +76,21 @@ func (cr *CommentRepository) Delete(comment model.Comment) error {
 	}
 
 	return nil
+}
+
+func (pr *CommentRepository) FindByPhotoID(photoID string) ([]model.Comment, error) {
+	comments := []model.Comment{}
+
+	err := pr.db.Where("photo_id = ?", photoID).Find(&comments).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return []model.Comment{}, err
+		}
+
+		return []model.Comment{}, err
+	}
+
+	fmt.Println("comments: ", comments)
+
+	return comments, nil
 }

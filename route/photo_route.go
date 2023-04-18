@@ -20,5 +20,6 @@ func PhotoRoute(router *gin.Engine, db *gorm.DB) {
 	{
 		authUser.POST("", photoController.CreatePhoto)
 		authUser.GET("", photoController.GetAll)
+		authUser.GET("/:photoID", photoController.GetOne)
 	}
 }
