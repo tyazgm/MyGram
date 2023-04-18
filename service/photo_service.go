@@ -4,6 +4,7 @@ import (
 	"MyGram/helper"
 	"MyGram/model"
 	"MyGram/repository"
+	"errors"
 	"time"
 )
 
@@ -62,7 +63,7 @@ func (ps *PhotoService) GetAll() ([]model.PhotoResponse, error) {
 }
 
 func (ps *PhotoService) GetOne(photoID string) (model.PhotoResponse, error) {
-	photosResult, err := ps.photoRepository.FindByID(photoID)
+	photoResponse, err := ps.photoRepository.FindByID(photoID)
 	if err != nil {
 		return model.PhotoResponse{}, err
 	}
@@ -77,13 +78,42 @@ func (ps *PhotoService) GetOne(photoID string) (model.PhotoResponse, error) {
 	}
 
 	return model.PhotoResponse{
-		ID:        photosResult.ID,
-		Title:     photosResult.Title,
-		Caption:   photosResult.Caption,
-		PhotoUrl:  photosResult.PhotoUrl,
-		UserID:    photosResult.UserID,
+		ID:        photoResponse.ID,
+		Title:     photoResponse.Title,
+		Caption:   photoResponse.Caption,
+		PhotoUrl:  photoResponse.PhotoUrl,
+		UserID:    photoResponse.UserID,
 		Comments:  comments,
-		CreatedAt: photosResult.CreatedAt,
-		UpdatedAt: photosResult.UpdatedAt,
+		CreatedAt: photoResponse.CreatedAt,
+		UpdatedAt: photoResponse.UpdatedAt,
+	}, nil
+}
+
+func (ps *PhotoService) UpdatePhoto(photoUpdateRequest model.PhotoUpdateRequest, userID string, photoID string) (*model.PhotoResponse, error) {
+	findPhotoResponse, err := ps.photoRepository.FindByID(photoID)
+	if err != nil {
+		return nil, err
+	}
+
+	if userID != findPhotoResponse.UserID {
+		return nil, errors.New("Unauthorized")
+	}
+
+	updatedPhotoReq := model.Photo{
+		ID:        photoID,
+		Title:     photoUpdateRequest.Title,
+		Caption:   photoUpdateRequest.Caption,
+		PhotoUrl:  photoUpdateRequest.PhotoUrl,
+		UserID:    userID,
+		UpdatedAt: time.Now(),
+	}
+
+	err = ps.photoRepository.Update(updatedPhotoReq)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.PhotoResponse{
+		ID: photoID,
 	}, nil
 }

@@ -117,3 +117,19 @@ func PhotoCreateValidator(photoCreateRequest model.PhotoCreateRequest) []error {
 
 	return nil
 }
+
+func PhotoUpdateValidator(requestData model.PhotoUpdateRequest) []error {
+	validate := validator.New()
+
+	err := validate.Struct(requestData)
+	if err != nil {
+		errResponse := []error{}
+		for _, err := range err.(validator.ValidationErrors) {
+			errResponse = append(errResponse, ErrorRequestMessages(err.Field(), err.ActualTag(), err.Param()))
+		}
+
+		return errResponse
+	}
+
+	return nil
+}

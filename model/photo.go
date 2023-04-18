@@ -39,3 +39,13 @@ type PhotoResponse struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
+
+type PhotoUpdateRequest struct {
+	Title    string `json:"title" validate:"required"`
+	Caption  string `json:"caption"`
+	PhotoUrl string `json:"photo_url" validate:"required"`
+}
+
+type PhotoUpdateResponse struct {
+	ID string `json:"photo_id"`
+}

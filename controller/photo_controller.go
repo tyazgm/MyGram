@@ -111,3 +111,61 @@ func (pc *PhotoController) GetOne(ctx *gin.Context) {
 		Data:    response,
 	})
 }
+
+func (pc *PhotoController) UpdatePhoto(ctx *gin.Context) {
+	var request model.PhotoUpdateRequest
+	photoID := ctx.Param("photoID")
+
+	if err := ctx.ShouldBindJSON(&request); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: err.Error(),
+		})
+		return
+	}
+
+	userID, userIDIsExist := ctx.Get("userID")
+	if !userIDIsExist {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: "UserID doesn't exist",
+		})
+		return
+	}
+
+	validateErrs := []error{}
+	validateErrs = helper.PhotoUpdateValidator(request)
+	if validateErrs != nil {
+		errResponseStr := make([]string, len(validateErrs))
+		for i, err := range validateErrs {
+			errResponseStr[i] = err.Error()
+		}
+
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, model.ErrorResponse{
+			Code:   http.StatusBadRequest,
+			Status: "Bad Request",
+			Errors: errResponseStr,
+		})
+		return
+	}
+
+	response, err := pc.photoService.UpdatePhoto(request, userID.(string), photoID)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model.SuccessResponse{
+		Code:    http.StatusOK,
+		Message: "Photo updated successfully",
+		Data: model.PhotoUpdateResponse{
+			ID: response.ID,
+		},
+	})
+}

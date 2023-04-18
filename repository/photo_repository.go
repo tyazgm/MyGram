@@ -66,3 +66,20 @@ func (pr *PhotoRepository) FindAll() ([]model.Photo, error) {
 
 	return photos, nil
 }
+
+func (pr *PhotoRepository) Update(photo model.Photo) error {
+	err := pr.db.Save(&model.Photo{
+		ID:        photo.ID,
+		Title:     photo.Title,
+		Caption:   photo.Caption,
+		PhotoUrl:  photo.PhotoUrl,
+		UserID:    photo.UserID,
+		UpdatedAt: photo.UpdatedAt,
+	}).Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
