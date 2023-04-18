@@ -23,3 +23,11 @@ type CommentResponse struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
+
+type CommentUpdateRequest struct {
+	Message string `json:"message" validate:"required"`
+}
+
+type CommentUpdateResponse struct {
+	ID string `json:"comment_id"`
+}

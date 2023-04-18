@@ -85,3 +85,19 @@ func CommentCreateValidator(commentCreateRequest model.CommentCreateRequest) []e
 
 	return nil
 }
+
+func CommentUpdateValidator(commentUpdateRequest model.CommentUpdateRequest) []error {
+	validate := validator.New()
+
+	err := validate.Struct(commentUpdateRequest)
+	if err != nil {
+		errResponse := []error{}
+		for _, err := range err.(validator.ValidationErrors) {
+			errResponse = append(errResponse, ErrorRequestMessages(err.Field(), err.ActualTag(), err.Param()))
+		}
+
+		return errResponse
+	}
+
+	return nil
+}

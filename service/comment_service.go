@@ -4,6 +4,7 @@ import (
 	"MyGram/helper"
 	"MyGram/model"
 	"MyGram/repository"
+	"errors"
 	"time"
 )
 
@@ -71,4 +72,32 @@ func (cs *CommentService) GetOne(commentID string) (model.CommentResponse, error
 	}
 
 	return model.CommentResponse(commentResult), nil
+}
+
+func (cs *CommentService) UpdateComment(commentReqData model.CommentUpdateRequest, userID string, commentID string) (*model.CommentResponse, error) {
+	findCommentResponse, err := cs.commentRepository.FindByID(commentID)
+	if err != nil {
+		return nil, err
+	}
+
+	if userID != findCommentResponse.UserID {
+		return nil, errors.New("Unauthorized")
+	}
+
+	updatedComment := model.Comment{
+		ID:        findCommentResponse.ID,
+		Message:   commentReqData.Message,
+		PhotoID:   findCommentResponse.PhotoID,
+		UserID:    userID,
+		UpdatedAt: time.Now(),
+	}
+
+	err = cs.commentRepository.Update(updatedComment)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.CommentResponse{
+		ID: commentID,
+	}, nil
 }
