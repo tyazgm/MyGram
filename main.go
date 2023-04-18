@@ -17,6 +17,7 @@ func main() {
 
 	route.UserRoute(router, db)
 	route.SocialMediaRoute(router, db)
+	route.CommentRoute(router, db)
 
 	router.Run(PORT)
 }
