@@ -121,3 +121,36 @@ func (uc *UserController) Login(ctx *gin.Context) {
 		},
 	})
 }
+
+func (uc *UserController) GetProfile(ctx *gin.Context) {
+	userID, isExist := ctx.Get("userID")
+	if !isExist {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: "UserID doesn't exist",
+		})
+		return
+	}
+
+	user, err := uc.userService.GetProfile(userID.(string))
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model.UserProfileResponse{
+		ID:           user.ID,
+		Username:     user.Username,
+		Email:        user.Email,
+		Age:          user.Age,
+		Photos:       user.Photos,
+		SocialMedias: user.SocialMedias,
+		CreatedAt:    user.CreatedAt,
+		UpdatedAt:    user.UpdatedAt,
+	})
+}

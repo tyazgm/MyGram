@@ -69,3 +69,31 @@ func (us *UserService) Login(userLoginRequest model.UserLoginRequest) (*string, 
 
 	return &token, nil
 }
+
+func (us *UserService) GetProfile(userID string) (model.User, error) {
+	user, err := us.userRepository.FindByID(userID)
+	if err != nil {
+		return model.User{}, err
+	}
+
+	photos, err := us.photoRepository.FindByUserID(userID)
+	if err != nil {
+		return model.User{}, err
+	}
+
+	socials, err := us.socialRepository.FindByUserID(userID)
+	if err != nil {
+		return model.User{}, err
+	}
+
+	return model.User{
+		ID:           userID,
+		Username:     user.Username,
+		Email:        user.Email,
+		Age:          user.Age,
+		CreatedAt:    user.CreatedAt,
+		UpdatedAt:    user.UpdatedAt,
+		Photos:       photos,
+		SocialMedias: socials,
+	}, nil
+}

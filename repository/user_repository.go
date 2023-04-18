@@ -35,3 +35,14 @@ func (ur *UserRepository) FindByUsername(username string) (model.User, error) {
 
 	return user, nil
 }
+
+func (ur *UserRepository) FindByID(userID string) (model.User, error) {
+	var user model.User
+	err := ur.db.First(&user, "id = ?", userID).Error
+
+	if err != nil {
+		return model.User{}, err
+	}
+
+	return user, nil
+}

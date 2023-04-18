@@ -2,6 +2,7 @@ package route
 
 import (
 	"MyGram/controller"
+	"MyGram/middleware"
 	"MyGram/repository"
 	"MyGram/service"
 
@@ -19,4 +20,8 @@ func UserRoute(router *gin.Engine, db *gorm.DB) {
 	router.POST("/register", userController.Register)
 	router.POST("/login", userController.Login)
 
+	authUser := router.Group("/user", middleware.AuthMiddleware)
+	{
+		authUser.GET("/profile", userController.GetProfile)
+	}
 }
