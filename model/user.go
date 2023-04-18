@@ -14,3 +14,20 @@ type User struct {
 	SocialMedias []SocialMedia
 	Comments     []Comment
 }
+
+type UserRegisterRequest struct {
+	Username string `json:"username" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required,min=6"`
+	Age      int    `json:"age" validate:"required,gt=8"`
+}
+
+type UserRegisterResponse struct {
+	ID        string    `json:"user_id"`
+	Username  string    `json:"username"`
+	Email     string    `json:"email"`
+	Password  string    `json:"password"`
+	Age       int       `json:"age"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"MyGram/database"
+	"MyGram/route"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,7 +13,9 @@ func main() {
 	router := gin.Default()
 
 	database.ConnectDB()
-	// db := database.GetDB()
+	db := database.GetDB()
+
+	route.UserRoute(router, db)
 
 	router.Run(PORT)
 }
