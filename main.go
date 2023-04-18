@@ -5,6 +5,8 @@ import (
 	"MyGram/route"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 var PORT string = ":8080"
@@ -19,6 +21,8 @@ func main() {
 	route.SocialMediaRoute(router, db)
 	route.CommentRoute(router, db)
 	route.PhotoRoute(router, db)
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.Run(PORT)
 }
