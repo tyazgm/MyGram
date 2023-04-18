@@ -21,6 +21,15 @@ func NewCommentController(commentService service.CommentService) *CommentControl
 	}
 }
 
+// CreateComment godoc
+// @summary add comment
+// @description add comment data to the database
+// @tags Comment
+// @produce json
+// @accept json
+// @param data body model.CommentCreateRequest true "data is mandatory"
+// @succes 200 {object} model.CommentResponse
+// @router /comment/{photoID} [POST]
 func (cc *CommentController) CreateComment(ctx *gin.Context) {
 	var request model.CommentCreateRequest
 	photoID := ctx.Param("photoID")
@@ -86,6 +95,13 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 	})
 }
 
+// GetAll godoc
+// @summary get all comment
+// @description get all comment data to the database
+// @tags Comment
+// @produce json
+// @succes 200 {object} model.CommentResponse
+// @router /comment [GET]
 func (cc *CommentController) GetAll(ctx *gin.Context) {
 	response, err := cc.commentService.GetAll()
 	if err != nil {
@@ -104,6 +120,14 @@ func (cc *CommentController) GetAll(ctx *gin.Context) {
 	})
 }
 
+// GetOne godoc
+// @summary get comment
+// @description get on comment data from comment ID
+// @tags Comment
+// @param commentID path string true "commentID you want to retrieve"
+// @produce json
+// @succes 200 {object} model.CommentResponse
+// @router /comment/{commentID} [GET]
 func (cc *CommentController) GetOne(ctx *gin.Context) {
 	commentID := ctx.Param("commentID")
 
@@ -124,9 +148,17 @@ func (cc *CommentController) GetOne(ctx *gin.Context) {
 	})
 }
 
+// UpdateComment godoc
+// @summary update comment
+// @description update comment by commentID
+// @tags Comment
+// @param commentID path string true "commentID you want to retrieve"
+// @produce json
+// @succes 200 {object} model.CommentUpdateResponse
+// @router /comment/{commentID} [PUT]
 func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	var request model.CommentUpdateRequest
-	commentID := ctx.Param("comment_id")
+	commentID := ctx.Param("commentID")
 
 	if err := ctx.ShouldBindJSON(&request); err != nil {
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
@@ -182,8 +214,16 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	})
 }
 
+// DeleteComment godoc
+// @summary delete a comment
+// @description delete a comment by commentID
+// @tags Comment
+// @param commentID path string true "commentID you want to retrieve"
+// @produce json
+// @succes 200 {object} model.CommentDeleteResponse
+// @router /comment/{commentID} [DELETE]
 func (cc *CommentController) DeleteComment(ctx *gin.Context) {
-	commentID := ctx.Param("comment_id")
+	commentID := ctx.Param("commentID")
 
 	userID, userIDIsExist := ctx.Get("userID")
 	if !userIDIsExist {

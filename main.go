@@ -11,6 +11,11 @@ import (
 
 var PORT string = ":8080"
 
+// @title MyGram API
+// @description Documentation of MyGram API
+// @version 1.0
+// @host localhost:8080
+// @protocol http
 func main() {
 	router := gin.Default()
 
