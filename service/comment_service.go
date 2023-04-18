@@ -101,3 +101,23 @@ func (cs *CommentService) UpdateComment(commentReqData model.CommentUpdateReques
 		ID: commentID,
 	}, nil
 }
+
+func (cs *CommentService) Delete(commentID string, userID string) (model.CommentDeleteResponse, error) {
+	findCommentResponse, err := cs.commentRepository.FindByID(commentID)
+	if err != nil {
+		return model.CommentDeleteResponse{}, err
+	}
+
+	if userID != findCommentResponse.UserID {
+		return model.CommentDeleteResponse{}, errors.New("Unauthorized")
+	}
+
+	err = cs.commentRepository.Delete(model.Comment{ID: commentID})
+	if err != nil {
+		return model.CommentDeleteResponse{}, err
+	}
+
+	return model.CommentDeleteResponse{
+		ID: commentID,
+	}, nil
+}

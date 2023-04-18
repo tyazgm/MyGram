@@ -31,3 +31,7 @@ type CommentUpdateRequest struct {
 type CommentUpdateResponse struct {
 	ID string `json:"comment_id"`
 }
+
+type CommentDeleteResponse struct {
+	ID string `json:"comment_id"`
+}

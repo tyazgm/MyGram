@@ -22,5 +22,6 @@ func CommentRoute(router *gin.Engine, db *gorm.DB) {
 		authUser.GET("", commentController.GetAll)
 		authUser.GET("/:commentID", commentController.GetOne)
 		authUser.PUT("/:commentID", commentController.UpdateComment)
+		authUser.DELETE("/:commentID", commentController.DeleteComment)
 	}
 }

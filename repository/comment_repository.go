@@ -52,15 +52,24 @@ func (cr *CommentRepository) FindByID(commentID string) (model.Comment, error) {
 	return comment, nil
 }
 
-func (cr *CommentRepository) Update(commentReqData model.Comment) error {
+func (cr *CommentRepository) Update(comment model.Comment) error {
 	err := cr.db.Save(&model.Comment{
-		ID:        commentReqData.ID,
-		Message:   commentReqData.Message,
-		PhotoID:   commentReqData.PhotoID,
-		UserID:    commentReqData.UserID,
-		UpdatedAt: commentReqData.UpdatedAt,
+		ID:        comment.ID,
+		Message:   comment.Message,
+		PhotoID:   comment.PhotoID,
+		UserID:    comment.UserID,
+		UpdatedAt: comment.UpdatedAt,
 	}).Error
 
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (cr *CommentRepository) Delete(comment model.Comment) error {
+	err := cr.db.Delete(&comment).Error
 	if err != nil {
 		return err
 	}

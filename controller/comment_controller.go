@@ -181,3 +181,35 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 		},
 	})
 }
+
+func (cc *CommentController) DeleteComment(ctx *gin.Context) {
+	commentID := ctx.Param("comment_id")
+
+	userID, userIDIsExist := ctx.Get("userID")
+	if !userIDIsExist {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: "UserID doesn't exist",
+		})
+		return
+	}
+
+	response, err := cc.commentService.Delete(commentID, userID.(string))
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model.SuccessResponse{
+		Code:    http.StatusOK,
+		Message: "Comment deleted successfully",
+		Data: model.CommentDeleteResponse{
+			ID: response.ID,
+		},
+	})
+}
