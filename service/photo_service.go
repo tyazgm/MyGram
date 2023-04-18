@@ -46,3 +46,17 @@ func (ps *PhotoService) Create(photoCreateRequest model.PhotoCreateRequest, user
 		UpdatedAt: newPhoto.UpdatedAt,
 	}, nil
 }
+
+func (ps *PhotoService) GetAll() ([]model.PhotoResponse, error) {
+	photosResult, err := ps.photoRepository.FindAll()
+	if err != nil {
+		return []model.PhotoResponse{}, err
+	}
+
+	photosResponse := []model.PhotoResponse{}
+	for _, photoRes := range photosResult {
+		photosResponse = append(photosResponse, model.PhotoResponse(photoRes))
+	}
+
+	return photosResponse, nil
+}

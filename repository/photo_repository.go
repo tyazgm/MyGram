@@ -55,3 +55,14 @@ func (pr *PhotoRepository) Create(photo model.Photo) error {
 
 	return nil
 }
+
+func (pr *PhotoRepository) FindAll() ([]model.Photo, error) {
+	photos := []model.Photo{}
+
+	err := pr.db.Find(&photos).Error
+	if err != nil {
+		return []model.Photo{}, err
+	}
+
+	return photos, nil
+}

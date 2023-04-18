@@ -16,8 +16,9 @@ func PhotoRoute(router *gin.Engine, db *gorm.DB) {
 	photoService := service.NewPhotoService(*photoRepository, *commentRepository)
 	photoController := controller.NewPhotoController(*photoService)
 
-	authUser := router.Group("/photos", middleware.AuthMiddleware)
+	authUser := router.Group("/photo", middleware.AuthMiddleware)
 	{
 		authUser.POST("", photoController.CreatePhoto)
+		authUser.GET("", photoController.GetAll)
 	}
 }
