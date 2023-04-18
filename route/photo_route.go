@@ -22,5 +22,6 @@ func PhotoRoute(router *gin.Engine, db *gorm.DB) {
 		authUser.GET("", photoController.GetAll)
 		authUser.GET("/:photoID", photoController.GetOne)
 		authUser.PUT("/:photoID", photoController.UpdatePhoto)
+		authUser.DELETE("/:photoID", photoController.DeletePhoto)
 	}
 }

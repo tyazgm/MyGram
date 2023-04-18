@@ -83,3 +83,12 @@ func (pr *PhotoRepository) Update(photo model.Photo) error {
 
 	return nil
 }
+
+func (pr *PhotoRepository) Delete(photo model.Photo) error {
+	err := pr.db.Delete(&photo).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

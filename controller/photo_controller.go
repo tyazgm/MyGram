@@ -31,8 +31,8 @@ func (pc *PhotoController) CreatePhoto(ctx *gin.Context) {
 		return
 	}
 
-	userID, userIDIsExist := ctx.Get("userID")
-	if !userIDIsExist {
+	userID, isExist := ctx.Get("userID")
+	if !isExist {
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
 			Code:   http.StatusInternalServerError,
 			Status: "Internal Server Error",
@@ -125,8 +125,8 @@ func (pc *PhotoController) UpdatePhoto(ctx *gin.Context) {
 		return
 	}
 
-	userID, userIDIsExist := ctx.Get("userID")
-	if !userIDIsExist {
+	userID, isExist := ctx.Get("userID")
+	if !isExist {
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
 			Code:   http.StatusInternalServerError,
 			Status: "Internal Server Error",
@@ -164,6 +164,38 @@ func (pc *PhotoController) UpdatePhoto(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, model.SuccessResponse{
 		Code:    http.StatusOK,
 		Message: "Photo updated successfully",
+		Data: model.PhotoUpdateResponse{
+			ID: response.ID,
+		},
+	})
+}
+
+func (pc *PhotoController) DeletePhoto(ctx *gin.Context) {
+	photoID := ctx.Param("photoID")
+
+	userID, isExist := ctx.Get("userID")
+	if !isExist {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: "UserID doesn't exist",
+		})
+		return
+	}
+
+	response, err := pc.photoService.Delete(photoID, userID.(string))
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model.SuccessResponse{
+		Code:    http.StatusOK,
+		Message: "Photo deleted successfully",
 		Data: model.PhotoUpdateResponse{
 			ID: response.ID,
 		},

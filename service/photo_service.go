@@ -117,3 +117,23 @@ func (ps *PhotoService) UpdatePhoto(photoUpdateRequest model.PhotoUpdateRequest,
 		ID: photoID,
 	}, nil
 }
+
+func (ps *PhotoService) Delete(photoID string, userID string) (model.PhotoResponse, error) {
+	findPhotoResponse, err := ps.photoRepository.FindByID(photoID)
+	if err != nil {
+		return model.PhotoResponse{}, err
+	}
+
+	if userID != findPhotoResponse.UserID {
+		return model.PhotoResponse{}, errors.New("Unauthorized")
+	}
+
+	err = ps.photoRepository.Delete(model.Photo{ID: photoID})
+	if err != nil {
+		return model.PhotoResponse{}, err
+	}
+
+	return model.PhotoResponse{
+		ID: photoID,
+	}, nil
+}
