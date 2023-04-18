@@ -31,3 +31,18 @@ func (pr *PhotoRepository) FindByUserID(userID string) ([]model.Photo, error) {
 
 	return photos, nil
 }
+
+func (pr *PhotoRepository) FindByID(photoID string) (model.Photo, error) {
+	photo := model.Photo{}
+
+	err := pr.db.Debug().Where("photo_id = ?", photoID).Take(&photo).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return model.Photo{}, err
+		}
+
+		return model.Photo{}, err
+	}
+
+	return photo, nil
+}

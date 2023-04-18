@@ -69,3 +69,19 @@ func SocialUpdateValidator(requestData model.SocialUpdateRequest) []error {
 
 	return nil
 }
+
+func CommentCreateValidator(commentCreateRequest model.CommentCreateRequest) []error {
+	validate := validator.New()
+
+	err := validate.Struct(commentCreateRequest)
+	if err != nil {
+		errResponse := []error{}
+		for _, err := range err.(validator.ValidationErrors) {
+			errResponse = append(errResponse, ErrorRequestMessages(err.Field(), err.ActualTag(), err.Param()))
+		}
+
+		return errResponse
+	}
+
+	return nil
+}

@@ -1,6 +1,11 @@
 package service
 
-import "MyGram/repository"
+import (
+	"MyGram/helper"
+	"MyGram/model"
+	"MyGram/repository"
+	"time"
+)
 
 type CommentService struct {
 	commentRepository repository.CommentRepository
@@ -12,4 +17,35 @@ func NewCommentService(commentRepository repository.CommentRepository, photoRepo
 		commentRepository: commentRepository,
 		photoRepository:   photoRepository,
 	}
+}
+
+func (cs *CommentService) Create(commentReqData model.CommentCreateRequest, userID string, photoID string) (*model.CommentResponse, error) {
+	_, err := cs.photoRepository.FindByID(photoID)
+	if err != nil {
+		return nil, err
+	}
+
+	commentID := helper.GenerateID()
+	newComment := model.Comment{
+		ID:        commentID,
+		Message:   commentReqData.Message,
+		PhotoID:   photoID,
+		UserID:    userID,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+
+	err = cs.commentRepository.Create(newComment)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.CommentResponse{
+		ID:        newComment.ID,
+		Message:   newComment.Message,
+		PhotoID:   newComment.PhotoID,
+		UserID:    newComment.UserID,
+		CreatedAt: newComment.CreatedAt,
+		UpdatedAt: newComment.UpdatedAt,
+	}, nil
 }
