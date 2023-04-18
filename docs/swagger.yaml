@@ -57,6 +57,33 @@ definitions:
     - name
     - social_media_url
     type: object
+  model.UserLoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  model.UserRegisterRequest:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      username:
+        type: string
+    required:
+    - age
+    - email
+    - password
+    - username
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -142,6 +169,24 @@ paths:
       summary: add comment
       tags:
       - Comment
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: login to MyGram App using registered account
+      parameters:
+      - description: data is mandatory
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserLoginRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: login account
+      tags:
+      - User
   /photo:
     get:
       description: get all photo data to the database
@@ -219,6 +264,24 @@ paths:
       summary: update photo
       tags:
       - photo
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: register your account to MyGram App
+      parameters:
+      - description: data is mandatory
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserRegisterRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: register account
+      tags:
+      - User
   /socialmedia:
     get:
       description: get all social media data to the database
@@ -296,4 +359,19 @@ paths:
       summary: update social media
       tags:
       - Social Media
+  /user/profile:
+    get:
+      description: get user profile using token info
+      parameters:
+      - description: userID you want to retrieve
+        in: path
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: get user profile
+      tags:
+      - User
 swagger: "2.0"

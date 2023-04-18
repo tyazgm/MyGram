@@ -21,6 +21,15 @@ func NewUserController(userService service.UserService) *UserController {
 	}
 }
 
+// Register godoc
+// @summary register account
+// @description register your account to MyGram App
+// @tags User
+// @accept json
+// @produce json
+// @param data body model.UserRegisterRequest true "data is mandatory"
+// @succes 200 {object} model.SuccessResponse
+// @router /register [POST]
 func (uc *UserController) Register(ctx *gin.Context) {
 	request := model.UserRegisterRequest{}
 	err := ctx.ShouldBindJSON(&request)
@@ -75,6 +84,15 @@ func (uc *UserController) Register(ctx *gin.Context) {
 	})
 }
 
+// Login godoc
+// @summary login account
+// @description login to MyGram App using registered account
+// @tags User
+// @accept json
+// @produce json
+// @param data body model.UserLoginRequest true "data is mandatory"
+// @succes 200 {object} model.SuccessResponse
+// @router /login [POST]
 func (uc *UserController) Login(ctx *gin.Context) {
 	request := model.UserLoginRequest{}
 	err := ctx.ShouldBindJSON(&request)
@@ -122,6 +140,14 @@ func (uc *UserController) Login(ctx *gin.Context) {
 	})
 }
 
+// GetProfile godoc
+// @summary get user profile
+// @description get user profile using token info
+// @tags User
+// @param userID path string true "userID you want to retrieve"
+// @produce json
+// @succes 200 {object} model.UserProfileResponse
+// @router /user/profile [GET]
 func (uc *UserController) GetProfile(ctx *gin.Context) {
 	userID, isExist := ctx.Get("userID")
 	if !isExist {

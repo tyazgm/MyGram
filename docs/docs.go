@@ -130,6 +130,33 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/login": {
+            "post": {
+                "description": "login to MyGram App using registered account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "login account",
+                "parameters": [
+                    {
+                        "description": "data is mandatory",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UserLoginRequest"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/photo": {
             "get": {
                 "description": "get all photo data to the database",
@@ -237,6 +264,33 @@ const docTemplate = `{
                         "name": "photoID",
                         "in": "path",
                         "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/register": {
+            "post": {
+                "description": "register your account to MyGram App",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "register account",
+                "parameters": [
+                    {
+                        "description": "data is mandatory",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UserRegisterRequest"
+                        }
                     }
                 ],
                 "responses": {}
@@ -353,6 +407,28 @@ const docTemplate = `{
                 ],
                 "responses": {}
             }
+        },
+        "/user/profile": {
+            "get": {
+                "description": "get user profile using token info",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "get user profile",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "userID you want to retrieve",
+                        "name": "userID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
         }
     },
     "definitions": {
@@ -440,6 +516,45 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "social_media_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.UserLoginRequest": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.UserRegisterRequest": {
+            "type": "object",
+            "required": [
+                "age",
+                "email",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "username": {
                     "type": "string"
                 }
             }
