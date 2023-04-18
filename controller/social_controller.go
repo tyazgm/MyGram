@@ -111,3 +111,61 @@ func (sc *SocialController) GetOne(ctx *gin.Context) {
 		Data:    response,
 	})
 }
+
+func (sc *SocialController) UpdateSocialMedia(ctx *gin.Context) {
+	var request model.SocialUpdateRequest
+	socialID := ctx.Param("socialmediaID")
+
+	if err := ctx.ShouldBindJSON(&request); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: err.Error(),
+		})
+		return
+	}
+
+	userID, isExist := ctx.Get("userID")
+	if !isExist {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: "UserID doesn't exist",
+		})
+		return
+	}
+
+	validateErrs := []error{}
+	validateErrs = helper.SocialUpdateValidator(request)
+	if validateErrs != nil {
+		errResponseStr := make([]string, len(validateErrs))
+		for i, err := range validateErrs {
+			errResponseStr[i] = err.Error()
+		}
+
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, model.ErrorResponse{
+			Code:   http.StatusBadRequest,
+			Status: "Bad Request",
+			Errors: errResponseStr,
+		})
+		return
+	}
+
+	response, err := sc.socialService.UpdateSocialMedia(request, userID.(string), socialID)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model.SuccessResponse{
+		Code:    http.StatusOK,
+		Message: "Social media updated successfully",
+		Data: model.SocialUpdateResponse{
+			ID: response.ID,
+		},
+	})
+}

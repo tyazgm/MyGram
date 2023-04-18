@@ -66,3 +66,19 @@ func (sr *SocialRepository) FindByID(socialMediaID string) (model.SocialMedia, e
 
 	return social, nil
 }
+
+func (sr *SocialRepository) Update(socialReqData model.SocialMedia) error {
+	err := sr.db.Save(&model.SocialMedia{
+		ID:             socialReqData.ID,
+		Name:           socialReqData.Name,
+		SocialMediaUrl: socialReqData.SocialMediaUrl,
+		UserID:         socialReqData.UserID,
+		UpdatedAt:      socialReqData.UpdatedAt,
+	}).Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

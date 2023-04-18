@@ -24,3 +24,12 @@ type SocialResponse struct {
 	CreatedAt      time.Time `json:"created_at"`
 	UpdatedAt      time.Time `json:"updated_at"`
 }
+
+type SocialUpdateRequest struct {
+	Name           string `json:"name" validate:"required"`
+	SocialMediaUrl string `json:"social_media_url" validate:"required"`
+}
+
+type SocialUpdateResponse struct {
+	ID string `json:"id"`
+}

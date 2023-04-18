@@ -4,6 +4,7 @@ import (
 	"MyGram/helper"
 	"MyGram/model"
 	"MyGram/repository"
+	"errors"
 	"time"
 )
 
@@ -64,4 +65,32 @@ func (ss *SocialService) GetOne(socialID string) (model.SocialResponse, error) {
 	}
 
 	return model.SocialResponse(socialMediaResponse), nil
+}
+
+func (ss *SocialService) UpdateSocialMedia(socialUpdateRequest model.SocialUpdateRequest, userID string, socialID string) (*model.SocialResponse, error) {
+	findSocialMediaResponse, err := ss.socialRepository.FindByID(socialID)
+	if err != nil {
+		return nil, err
+	}
+
+	if userID != findSocialMediaResponse.UserID {
+		return nil, errors.New("Unauthorized")
+	}
+
+	socialMedia := model.SocialMedia{
+		ID:             socialID,
+		Name:           socialUpdateRequest.Name,
+		SocialMediaUrl: socialUpdateRequest.SocialMediaUrl,
+		UserID:         userID,
+		UpdatedAt:      time.Now(),
+	}
+
+	err = ss.socialRepository.Update(socialMedia)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.SocialResponse{
+		ID: socialID,
+	}, nil
 }
