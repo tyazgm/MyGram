@@ -49,3 +49,17 @@ func (cs *CommentService) Create(commentReqData model.CommentCreateRequest, user
 		UpdatedAt: newComment.UpdatedAt,
 	}, nil
 }
+
+func (cs *CommentService) GetAll() ([]model.CommentResponse, error) {
+	commentsResult, err := cs.commentRepository.FindAll()
+	if err != nil {
+		return []model.CommentResponse{}, err
+	}
+
+	commentsResponse := []model.CommentResponse{}
+	for _, commentRes := range commentsResult {
+		commentsResponse = append(commentsResponse, model.CommentResponse(commentRes))
+	}
+
+	return commentsResponse, nil
+}

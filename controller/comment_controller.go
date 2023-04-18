@@ -85,3 +85,21 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 		Data:    response,
 	})
 }
+
+func (cc *CommentController) GetAll(ctx *gin.Context) {
+	response, err := cc.commentService.GetAll()
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model.SuccessResponse{
+		Code:    http.StatusOK,
+		Message: "Get all comment successfully",
+		Data:    response,
+	})
+}

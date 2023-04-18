@@ -19,5 +19,6 @@ func CommentRoute(router *gin.Engine, db *gorm.DB) {
 	authUser := router.Group("/comment", middleware.AuthMiddleware)
 	{
 		authUser.POST("/:photoID", commentController.CreateComment)
+		authUser.GET("", commentController.GetAll)
 	}
 }

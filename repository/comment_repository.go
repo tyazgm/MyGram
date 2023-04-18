@@ -24,3 +24,14 @@ func (cr *CommentRepository) Create(comment model.Comment) error {
 
 	return nil
 }
+
+func (cr *CommentRepository) FindAll() ([]model.Comment, error) {
+	comments := []model.Comment{}
+
+	err := cr.db.Find(&comments).Error
+	if err != nil {
+		return []model.Comment{}, err
+	}
+
+	return comments, nil
+}
