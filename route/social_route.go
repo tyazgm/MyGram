@@ -18,5 +18,6 @@ func SocialMediaRoute(router *gin.Engine, db *gorm.DB) {
 	authUser := router.Group("/socialmedia", middleware.AuthMiddleware)
 	{
 		authUser.POST("", socialController.CreateSocial)
+		authUser.GET("", socialController.GetAll)
 	}
 }

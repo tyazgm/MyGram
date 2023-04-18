@@ -40,3 +40,14 @@ func (sr *SocialRepository) Create(socialMedia model.SocialMedia) error {
 
 	return nil
 }
+
+func (sr *SocialRepository) FindAll() ([]model.SocialMedia, error) {
+	socials := []model.SocialMedia{}
+
+	err := sr.db.Find(&socials).Error
+	if err != nil {
+		return []model.SocialMedia{}, err
+	}
+
+	return socials, nil
+}

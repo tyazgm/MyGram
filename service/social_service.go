@@ -17,7 +17,7 @@ func NewSocialService(socialRepository repository.SocialRepository) *SocialServi
 	}
 }
 
-func (ss *SocialService) Create(socialReqData model.SocialCreateRequest, userID string) (*model.SocialCreateResponse, error) {
+func (ss *SocialService) Create(socialReqData model.SocialCreateRequest, userID string) (*model.SocialResponse, error) {
 	socialID := helper.GenerateID()
 	newSocial := model.SocialMedia{
 		ID:             socialID,
@@ -33,7 +33,7 @@ func (ss *SocialService) Create(socialReqData model.SocialCreateRequest, userID 
 		return nil, err
 	}
 
-	return &model.SocialCreateResponse{
+	return &model.SocialResponse{
 		ID:             newSocial.ID,
 		Name:           newSocial.Name,
 		SocialMediaUrl: newSocial.SocialMediaUrl,
@@ -41,4 +41,18 @@ func (ss *SocialService) Create(socialReqData model.SocialCreateRequest, userID 
 		CreatedAt:      newSocial.CreatedAt,
 		UpdatedAt:      newSocial.UpdatedAt,
 	}, nil
+}
+
+func (ss *SocialService) GetAll() ([]model.SocialResponse, error) {
+	photosResult, err := ss.socialRepository.FindAll()
+	if err != nil {
+		return []model.SocialResponse{}, err
+	}
+
+	socialResponse := []model.SocialResponse{}
+	for _, socialMedia := range photosResult {
+		socialResponse = append(socialResponse, model.SocialResponse(socialMedia))
+	}
+
+	return socialResponse, nil
 }
