@@ -31,3 +31,12 @@ func (sr *SocialRepository) FindByUserID(userID string) ([]model.SocialMedia, er
 
 	return socials, nil
 }
+
+func (sr *SocialRepository) Create(socialMedia model.SocialMedia) error {
+	err := sr.db.Create(&socialMedia).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

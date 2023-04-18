@@ -15,7 +15,7 @@ func SocialMediaRoute(router *gin.Engine, db *gorm.DB) {
 	socialService := service.NewSocialService(*socialRepository)
 	socialController := controller.NewSocialController(*socialService)
 
-	authUser := router.Group("/social-media", middleware.AuthMiddleware)
+	authUser := router.Group("/socialmedia", middleware.AuthMiddleware)
 	{
 		authUser.POST("", socialController.CreateSocial)
 	}

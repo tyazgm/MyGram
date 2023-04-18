@@ -37,3 +37,19 @@ func UserLoginValidator(userLoginRequest model.UserLoginRequest) []error {
 
 	return nil
 }
+
+func SocialCreateValidator(requestData model.SocialCreateRequest) []error {
+	validate := validator.New()
+
+	err := validate.Struct(requestData)
+	if err != nil {
+		errResponse := []error{}
+		for _, err := range err.(validator.ValidationErrors) {
+			errResponse = append(errResponse, ErrorRequestMessages(err.Field(), err.ActualTag(), err.Param()))
+		}
+
+		return errResponse
+	}
+
+	return nil
+}
