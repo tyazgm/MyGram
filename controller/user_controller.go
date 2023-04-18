@@ -74,3 +74,50 @@ func (uc *UserController) Register(ctx *gin.Context) {
 		Data:    response,
 	})
 }
+
+func (uc *UserController) Login(ctx *gin.Context) {
+	request := model.UserLoginRequest{}
+	err := ctx.ShouldBindJSON(&request)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, model.ErrorResponse{
+			Code:   http.StatusBadRequest,
+			Status: "Bad Request",
+			Errors: err.Error(),
+		})
+		return
+	}
+
+	validateErrs := []error{}
+	validateErrs = helper.UserLoginValidator(request)
+	if validateErrs != nil {
+		errResponseStr := make([]string, len(validateErrs))
+		for i, err := range validateErrs {
+			errResponseStr[i] = err.Error()
+		}
+
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, model.ErrorResponse{
+			Code:   http.StatusBadRequest,
+			Status: "Bad Request",
+			Errors: errResponseStr,
+		})
+		return
+	}
+
+	response, err := uc.userService.Login(request)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model.SuccessResponse{
+		Code:    http.StatusOK,
+		Message: "Login success!",
+		Data: model.UserLoginResponse{
+			Token: *response,
+		},
+	})
+}

@@ -31,3 +31,12 @@ type UserRegisterResponse struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
+
+type UserLoginRequest struct {
+	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required"`
+}
+
+type UserLoginResponse struct {
+	Token string `json:"token"`
+}

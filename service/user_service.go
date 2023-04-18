@@ -4,6 +4,8 @@ import (
 	"MyGram/helper"
 	"MyGram/model"
 	"MyGram/repository"
+	"errors"
+	"fmt"
 )
 
 type UserService struct {
@@ -47,4 +49,23 @@ func (us *UserService) Register(userRegisterRequest model.UserRegisterRequest) (
 		Password: newUser.Password,
 		Age:      newUser.Age,
 	}, nil
+}
+
+func (us *UserService) Login(userLoginRequest model.UserLoginRequest) (*string, error) {
+	userResponse, err := us.userRepository.FindByUsername(userLoginRequest.Username)
+	if err != nil {
+		return nil, err
+	}
+
+	isMatch := helper.PasswordIsMatch(userLoginRequest.Password, userResponse.Password)
+	if isMatch == false {
+		return nil, errors.New(fmt.Sprintf("Invalid username or password"))
+	}
+
+	token, err := helper.GenerateToken(userResponse.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &token, nil
 }
