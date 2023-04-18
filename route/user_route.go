@@ -18,4 +18,5 @@ func UserRoute(router *gin.Engine, db *gorm.DB) {
 
 	router.POST("/register", userController.Register)
 	router.POST("/login", userController.Login)
+
 }

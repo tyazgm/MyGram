@@ -1,6 +1,8 @@
 package helper
 
 import (
+	"fmt"
+
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -29,6 +31,19 @@ func Hash(plain string) (string, error) {
 	}
 
 	return string(result), nil
+}
+
+func VerifyToken(token string) (*jwt.Token, error) {
+	jwtToken, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
+		_, ok := t.Method.(*jwt.SigningMethodHMAC)
+		if !ok {
+			return nil, fmt.Errorf("Token invalid!")
+		}
+
+		return []byte("4l0h4m0r4"), nil
+	})
+
+	return jwtToken, err
 }
 
 func PasswordIsMatch(plain string, hash string) bool {
