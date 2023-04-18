@@ -91,3 +91,23 @@ func (sc *SocialController) GetAll(ctx *gin.Context) {
 		Data:    response,
 	})
 }
+
+func (sc *SocialController) GetOne(ctx *gin.Context) {
+	socialMediaID := ctx.Param("socialmediaID")
+
+	response, err := sc.socialService.GetOne(socialMediaID)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model.SuccessResponse{
+		Code:    http.StatusOK,
+		Message: "Social media data has been successfully retrieved",
+		Data:    response,
+	})
+}

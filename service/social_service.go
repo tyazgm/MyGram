@@ -56,3 +56,12 @@ func (ss *SocialService) GetAll() ([]model.SocialResponse, error) {
 
 	return socialResponse, nil
 }
+
+func (ss *SocialService) GetOne(socialID string) (model.SocialResponse, error) {
+	socialMediaResponse, err := ss.socialRepository.FindByID(socialID)
+	if err != nil {
+		return model.SocialResponse{}, err
+	}
+
+	return model.SocialResponse(socialMediaResponse), nil
+}

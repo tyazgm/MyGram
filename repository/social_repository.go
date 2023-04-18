@@ -51,3 +51,18 @@ func (sr *SocialRepository) FindAll() ([]model.SocialMedia, error) {
 
 	return socials, nil
 }
+
+func (sr *SocialRepository) FindByID(socialMediaID string) (model.SocialMedia, error) {
+	social := model.SocialMedia{}
+
+	err := sr.db.Debug().Where("id = ?", socialMediaID).Take(&social).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return model.SocialMedia{}, err
+		}
+
+		return model.SocialMedia{}, err
+	}
+
+	return social, nil
+}
