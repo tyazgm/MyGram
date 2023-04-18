@@ -19,6 +19,15 @@ func NewSocialController(socialService service.SocialService) *SocialController 
 	}
 }
 
+// CreateSocial godoc
+// @summary add social media
+// @description add social media data to the database
+// @tags Social Media
+// @produce json
+// @accept json
+// @param data body model.SocialCreateRequest true "data is mandatory"
+// @succes 200 {object} model.SuccessResponse
+// @router /socialmedia [POST]
 func (sc *SocialController) CreateSocial(ctx *gin.Context) {
 	var request model.SocialCreateRequest
 
@@ -74,6 +83,13 @@ func (sc *SocialController) CreateSocial(ctx *gin.Context) {
 	})
 }
 
+// GetAll godoc
+// @summary get all social media
+// @description get all social media data to the database
+// @tags Social Media
+// @produce json
+// @succes 200 {object} model.SuccessResponse
+// @router /socialmedia [GET]
 func (sc *SocialController) GetAll(ctx *gin.Context) {
 	response, err := sc.socialService.GetAll()
 	if err != nil {
@@ -92,6 +108,14 @@ func (sc *SocialController) GetAll(ctx *gin.Context) {
 	})
 }
 
+// GetOne godoc
+// @summary get social media
+// @description get on social media data from socialmedia ID
+// @tags Social Media
+// @param socialmediaID path string true "socialmediaID you want to retrieve"
+// @produce json
+// @succes 200 {object} model.SuccessResponse
+// @router /socialmedia/{socialmediaID} [GET]
 func (sc *SocialController) GetOne(ctx *gin.Context) {
 	socialMediaID := ctx.Param("socialmediaID")
 
@@ -112,6 +136,16 @@ func (sc *SocialController) GetOne(ctx *gin.Context) {
 	})
 }
 
+// UpdateSocialMedia godoc
+// @summary update social media
+// @description update social media by socialmediaID
+// @tags Social Media
+// @param socialmediaID path string true "socialmediaID you want to retrieve"
+// @param data body model.SocialUpdateRequest true "data is mandatory"
+// @accept json
+// @produce json
+// @succes 200 {object} model.SuccessResponse
+// @router /socialmedia/{socialmediaID} [PUT]
 func (sc *SocialController) UpdateSocialMedia(ctx *gin.Context) {
 	var request model.SocialUpdateRequest
 	socialID := ctx.Param("socialmediaID")
@@ -170,6 +204,14 @@ func (sc *SocialController) UpdateSocialMedia(ctx *gin.Context) {
 	})
 }
 
+// DeleteSocialMedia godoc
+// @summary delete a social media
+// @description delete a social media by socialmediaID
+// @tags Social Media
+// @param socialmediaID path string true "socialmediaID you want to retrieve"
+// @produce json
+// @succes 200 {object} model.SuccessResponse
+// @router /socialmedia/{socialmediaID} [DELETE]
 func (sc *SocialController) DeleteSocialMedia(ctx *gin.Context) {
 	socialID := ctx.Param("socialmediaID")
 

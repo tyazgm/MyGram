@@ -37,6 +37,26 @@ definitions:
     - photo_url
     - title
     type: object
+  model.SocialCreateRequest:
+    properties:
+      name:
+        type: string
+      social_media_url:
+        type: string
+    required:
+    - name
+    - social_media_url
+    type: object
+  model.SocialUpdateRequest:
+    properties:
+      name:
+        type: string
+      social_media_url:
+        type: string
+    required:
+    - name
+    - social_media_url
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -199,4 +219,81 @@ paths:
       summary: update photo
       tags:
       - photo
+  /socialmedia:
+    get:
+      description: get all social media data to the database
+      produces:
+      - application/json
+      responses: {}
+      summary: get all social media
+      tags:
+      - Social Media
+    post:
+      consumes:
+      - application/json
+      description: add social media data to the database
+      parameters:
+      - description: data is mandatory
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.SocialCreateRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: add social media
+      tags:
+      - Social Media
+  /socialmedia/{socialmediaID}:
+    delete:
+      description: delete a social media by socialmediaID
+      parameters:
+      - description: socialmediaID you want to retrieve
+        in: path
+        name: socialmediaID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: delete a social media
+      tags:
+      - Social Media
+    get:
+      description: get on social media data from socialmedia ID
+      parameters:
+      - description: socialmediaID you want to retrieve
+        in: path
+        name: socialmediaID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: get social media
+      tags:
+      - Social Media
+    put:
+      consumes:
+      - application/json
+      description: update social media by socialmediaID
+      parameters:
+      - description: socialmediaID you want to retrieve
+        in: path
+        name: socialmediaID
+        required: true
+        type: string
+      - description: data is mandatory
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.SocialUpdateRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: update social media
+      tags:
+      - Social Media
 swagger: "2.0"

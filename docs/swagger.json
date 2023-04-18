@@ -233,6 +233,118 @@
                 ],
                 "responses": {}
             }
+        },
+        "/socialmedia": {
+            "get": {
+                "description": "get all social media data to the database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Social Media"
+                ],
+                "summary": "get all social media",
+                "responses": {}
+            },
+            "post": {
+                "description": "add social media data to the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Social Media"
+                ],
+                "summary": "add social media",
+                "parameters": [
+                    {
+                        "description": "data is mandatory",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SocialCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/socialmedia/{socialmediaID}": {
+            "get": {
+                "description": "get on social media data from socialmedia ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Social Media"
+                ],
+                "summary": "get social media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "socialmediaID you want to retrieve",
+                        "name": "socialmediaID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
+            "put": {
+                "description": "update social media by socialmediaID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Social Media"
+                ],
+                "summary": "update social media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "socialmediaID you want to retrieve",
+                        "name": "socialmediaID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "data is mandatory",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SocialUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
+            "delete": {
+                "description": "delete a social media by socialmediaID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Social Media"
+                ],
+                "summary": "delete a social media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "socialmediaID you want to retrieve",
+                        "name": "socialmediaID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
         }
     },
     "definitions": {
@@ -290,6 +402,36 @@
                     "type": "string"
                 },
                 "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.SocialCreateRequest": {
+            "type": "object",
+            "required": [
+                "name",
+                "social_media_url"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "social_media_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.SocialUpdateRequest": {
+            "type": "object",
+            "required": [
+                "name",
+                "social_media_url"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "social_media_url": {
                     "type": "string"
                 }
             }
