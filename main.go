@@ -16,6 +16,7 @@ func main() {
 	db := database.GetDB()
 
 	route.UserRoute(router, db)
+	route.SocialMediaRoute(router, db)
 
 	router.Run(PORT)
 }
