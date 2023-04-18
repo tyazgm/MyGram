@@ -63,3 +63,12 @@ func (cs *CommentService) GetAll() ([]model.CommentResponse, error) {
 
 	return commentsResponse, nil
 }
+
+func (cs *CommentService) GetOne(commentID string) (model.CommentResponse, error) {
+	commentResult, err := cs.commentRepository.FindByID(commentID)
+	if err != nil {
+		return model.CommentResponse{}, err
+	}
+
+	return model.CommentResponse(commentResult), nil
+}

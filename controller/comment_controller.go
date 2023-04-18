@@ -103,3 +103,23 @@ func (cc *CommentController) GetAll(ctx *gin.Context) {
 		Data:    response,
 	})
 }
+
+func (cc *CommentController) GetOne(ctx *gin.Context) {
+	commentID := ctx.Param("commentID")
+
+	response, err := cc.commentService.GetOne(commentID)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model.SuccessResponse{
+		Code:    http.StatusOK,
+		Message: "Get comment successfully",
+		Data:    response,
+	})
+}

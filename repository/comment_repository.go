@@ -2,6 +2,7 @@ package repository
 
 import (
 	"MyGram/model"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -34,4 +35,19 @@ func (cr *CommentRepository) FindAll() ([]model.Comment, error) {
 	}
 
 	return comments, nil
+}
+
+func (cr *CommentRepository) FindByID(commentID string) (model.Comment, error) {
+	comment := model.Comment{}
+
+	err := cr.db.Debug().Where("comment_id = ?", commentID).Take(&comment).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return model.Comment{}, err
+		}
+
+		return model.Comment{}, err
+	}
+
+	return comment, nil
 }
