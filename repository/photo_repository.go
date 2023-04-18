@@ -46,3 +46,12 @@ func (pr *PhotoRepository) FindByID(photoID string) (model.Photo, error) {
 
 	return photo, nil
 }
+
+func (pr *PhotoRepository) Create(photo model.Photo) error {
+	err := pr.db.Create(&photo).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
