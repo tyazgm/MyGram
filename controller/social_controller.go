@@ -163,8 +163,40 @@ func (sc *SocialController) UpdateSocialMedia(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, model.SuccessResponse{
 		Code:    http.StatusOK,
-		Message: "Social media updated successfully",
+		Message: "Social media has been successfully updated",
 		Data: model.SocialUpdateResponse{
+			ID: response.ID,
+		},
+	})
+}
+
+func (sc *SocialController) DeleteSocialMedia(ctx *gin.Context) {
+	socialID := ctx.Param("socialmediaID")
+
+	userID, isExist := ctx.Get("userID")
+	if !isExist {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: "UserID doesn't exist",
+		})
+		return
+	}
+
+	response, err := sc.socialService.Delete(socialID, userID.(string))
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, model.ErrorResponse{
+			Code:   http.StatusInternalServerError,
+			Status: "Internal Server Error",
+			Errors: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model.SuccessResponse{
+		Code:    http.StatusOK,
+		Message: "Social media has been successfully deleted",
+		Data: model.SocialDeleteResponse{
 			ID: response.ID,
 		},
 	})

@@ -33,3 +33,7 @@ type SocialUpdateRequest struct {
 type SocialUpdateResponse struct {
 	ID string `json:"id"`
 }
+
+type SocialDeleteResponse struct {
+	ID string `json:"id"`
+}

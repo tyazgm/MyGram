@@ -21,5 +21,6 @@ func SocialMediaRoute(router *gin.Engine, db *gorm.DB) {
 		authUser.GET("", socialController.GetAll)
 		authUser.GET("/:socialmediaID", socialController.GetOne)
 		authUser.PUT("/:socialmediaID", socialController.UpdateSocialMedia)
+		authUser.DELETE("/:socialmediaID", socialController.DeleteSocialMedia)
 	}
 }

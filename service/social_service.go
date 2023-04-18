@@ -94,3 +94,23 @@ func (ss *SocialService) UpdateSocialMedia(socialUpdateRequest model.SocialUpdat
 		ID: socialID,
 	}, nil
 }
+
+func (ss *SocialService) Delete(socialID string, userID string) (model.SocialResponse, error) {
+	findSocialResponse, err := ss.socialRepository.FindByID(socialID)
+	if err != nil {
+		return model.SocialResponse{}, err
+	}
+
+	if userID != findSocialResponse.UserID {
+		return model.SocialResponse{}, errors.New("Unauthorized")
+	}
+
+	err = ss.socialRepository.Delete(model.SocialMedia{ID: socialID})
+	if err != nil {
+		return model.SocialResponse{}, err
+	}
+
+	return model.SocialResponse{
+		ID: socialID,
+	}, nil
+}
