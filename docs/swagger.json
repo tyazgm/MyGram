@@ -7,7 +7,6 @@
         "version": "1.0"
     },
     "host": "localhost:8080",
-    "basePath": "/",
     "paths": {
         "/comment": {
             "get": {
@@ -625,7 +624,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "photo"
+                    "Photo"
                 ],
                 "summary": "update photo",
                 "parameters": [
@@ -696,7 +695,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "photo"
+                    "Photo"
                 ],
                 "summary": "delete a photo",
                 "parameters": [

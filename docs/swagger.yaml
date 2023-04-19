@@ -1,4 +1,3 @@
-basePath: /
 definitions:
   model.CommentCreateRequest:
     properties:
@@ -432,7 +431,7 @@ paths:
       - BearerAuth: []
       summary: delete a photo
       tags:
-      - photo
+      - Photo
     get:
       consumes:
       - application/json
@@ -510,7 +509,7 @@ paths:
       - BearerAuth: []
       summary: update photo
       tags:
-      - photo
+      - Photo
   /register:
     post:
       consumes:

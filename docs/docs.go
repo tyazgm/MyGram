@@ -632,7 +632,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "photo"
+                    "Photo"
                 ],
                 "summary": "update photo",
                 "parameters": [
@@ -703,7 +703,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "photo"
+                    "Photo"
                 ],
                 "summary": "delete a photo",
                 "parameters": [
@@ -1305,7 +1305,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "localhost:8080",
-	BasePath:         "/",
+	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "MyGram API",
 	Description:      "Documentation of MyGram API",

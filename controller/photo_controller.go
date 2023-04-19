@@ -150,7 +150,7 @@ func (pc *PhotoController) GetOne(ctx *gin.Context) {
 // UpdatePhoto godoc
 // @summary update photo
 // @description update photo by photoID
-// @tags photo
+// @tags Photo
 // @param photoID path string true "photoID you want to retrieve"
 // @param request body model.PhotoUpdateRequest true "request is mandatory"
 // @accept json
@@ -221,7 +221,7 @@ func (pc *PhotoController) UpdatePhoto(ctx *gin.Context) {
 // DeletePhoto godoc
 // @summary delete a photo
 // @description delete a photo by photoID
-// @tags photo
+// @tags Photo
 // @param photoID path string true "photoID you want to retrieve"
 // @acccept json
 // @produce json
