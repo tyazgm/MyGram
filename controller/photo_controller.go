@@ -23,10 +23,13 @@ func NewPhotoController(photoService service.PhotoService) *PhotoController {
 // @summary add photo
 // @description add photo data to the database
 // @tags Photo
-// @produce json
 // @accept json
-// @param data body model.PhotoCreateRequest true "data is mandatory"
-// @succes 200 {object} model.SuccessResponse
+// @produce json
+// @param request body model.PhotoCreateRequest true "request is mandatory"
+// @succes 200 {object} model.SuccessResponse{data=*model.PhotoCreateResponse}
+// @failure	400	{object} model.ErrorResponse{errors=interface{}}
+// @failure	500	{object} model.ErrorResponse{errors=interface{}}
+// @security BearerAuth
 // @router /photo [POST]
 func (pc *PhotoController) CreatePhoto(ctx *gin.Context) {
 	var request model.PhotoCreateRequest
@@ -87,8 +90,12 @@ func (pc *PhotoController) CreatePhoto(ctx *gin.Context) {
 // @summary get all photo
 // @description get all photo data to the database
 // @tags Photo
+// @accept json
 // @produce json
-// @succes 200 {object} model.SuccessResponse
+// @succes 200 {object} model.SuccessResponse{data=[]model.PhotoResponse}
+// @failure	400	{object} model.ErrorResponse{errors=interface{}}
+// @failure	500	{object} model.ErrorResponse{errors=interface{}}
+// @security BearerAuth
 // @router /photo [GET]
 func (pc *PhotoController) GetAll(ctx *gin.Context) {
 	response, err := pc.photoService.GetAll()
@@ -113,8 +120,12 @@ func (pc *PhotoController) GetAll(ctx *gin.Context) {
 // @description get on photo data from photo ID
 // @tags Photo
 // @param photoID path string true "photoID you want to retrieve"
+// @accept json
 // @produce json
-// @succes 200 {object} model.SuccessResponse
+// @succes 200 {object} model.SuccessResponse{data=model.PhotoResponse}
+// @failure	400	{object} model.ErrorResponse{errors=interface{}}
+// @failure	500	{object} model.ErrorResponse{errors=interface{}}
+// @security BearerAuth
 // @router /photo/{photoID} [GET]
 func (pc *PhotoController) GetOne(ctx *gin.Context) {
 	photoID := ctx.Param("photoID")
@@ -141,10 +152,13 @@ func (pc *PhotoController) GetOne(ctx *gin.Context) {
 // @description update photo by photoID
 // @tags photo
 // @param photoID path string true "photoID you want to retrieve"
-// @param data body model.PhotoUpdateRequest true "data is mandatory"
+// @param request body model.PhotoUpdateRequest true "request is mandatory"
 // @accept json
 // @produce json
-// @succes 200 {object} model.SuccessResponse
+// @succes 200 {object} model.SuccessResponse{data=model.PhotoUpdateResponse}
+// @failure	400	{object} model.ErrorResponse{errors=interface{}}
+// @failure	500	{object} model.ErrorResponse{errors=interface{}}
+// @security BearerAuth
 // @router /photo/{photoID} [PUT]
 func (pc *PhotoController) UpdatePhoto(ctx *gin.Context) {
 	var request model.PhotoUpdateRequest
@@ -209,8 +223,12 @@ func (pc *PhotoController) UpdatePhoto(ctx *gin.Context) {
 // @description delete a photo by photoID
 // @tags photo
 // @param photoID path string true "photoID you want to retrieve"
+// @acccept json
 // @produce json
-// @succes 200 {object} model.SuccessResponse
+// @succes 200 {object} model.SuccessResponse{data=model.PhotoDeleteResponse}
+// @failure	400	{object} model.ErrorResponse{errors=interface{}}
+// @failure	500	{object} model.ErrorResponse{errors=interface{}}
+// @security BearerAuth
 // @router /photo/{photoID} [DELETE]
 func (pc *PhotoController) DeletePhoto(ctx *gin.Context) {
 	photoID := ctx.Param("photoID")

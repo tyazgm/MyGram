@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   model.CommentCreateRequest:
     properties:
@@ -12,6 +13,14 @@ definitions:
         type: string
     required:
     - message
+    type: object
+  model.ErrorResponse:
+    properties:
+      code:
+        type: integer
+      errors: {}
+      status:
+        type: string
     type: object
   model.PhotoCreateRequest:
     properties:
@@ -93,15 +102,39 @@ info:
 paths:
   /comment:
     get:
+      consumes:
+      - application/json
       description: get all comment data to the database
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: get all comment
       tags:
       - Comment
   /comment/{commentID}:
     delete:
+      consumes:
+      - application/json
       description: delete a comment by commentID
       parameters:
       - description: commentID you want to retrieve
@@ -111,11 +144,33 @@ paths:
         type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: delete a comment
       tags:
       - Comment
     get:
+      consumes:
+      - application/json
       description: get on comment data from comment ID
       parameters:
       - description: commentID you want to retrieve
@@ -123,9 +178,34 @@ paths:
         name: commentID
         required: true
         type: string
+      - description: commentID you want to retrieve
+        in: path
+        name: commentID
+        required: true
+        type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: get comment
       tags:
       - Comment
@@ -139,15 +219,35 @@ paths:
         name: commentID
         required: true
         type: string
-      - description: data is mandatory
+      - description: request is mandatory
         in: body
-        name: data
+        name: request
         required: true
         schema:
           $ref: '#/definitions/model.CommentUpdateRequest'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: update comment
       tags:
       - Comment
@@ -157,15 +257,40 @@ paths:
       - application/json
       description: add comment data to the database
       parameters:
-      - description: data is mandatory
+      - description: photoID you want to retrieve
+        in: path
+        name: photoID
+        required: true
+        type: string
+      - description: request is mandatory
         in: body
-        name: data
+        name: request
         required: true
         schema:
           $ref: '#/definitions/model.CommentCreateRequest'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: add comment
       tags:
       - Comment
@@ -175,24 +300,64 @@ paths:
       - application/json
       description: login to MyGram App using registered account
       parameters:
-      - description: data is mandatory
+      - description: request is mandatory
         in: body
-        name: data
+        name: request
         required: true
         schema:
           $ref: '#/definitions/model.UserLoginRequest'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
       summary: login account
       tags:
       - User
   /photo:
     get:
+      consumes:
+      - application/json
       description: get all photo data to the database
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: get all photo
       tags:
       - Photo
@@ -201,15 +366,35 @@ paths:
       - application/json
       description: add photo data to the database
       parameters:
-      - description: data is mandatory
+      - description: request is mandatory
         in: body
-        name: data
+        name: request
         required: true
         schema:
           $ref: '#/definitions/model.PhotoCreateRequest'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: add photo
       tags:
       - Photo
@@ -224,11 +409,33 @@ paths:
         type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: delete a photo
       tags:
       - photo
     get:
+      consumes:
+      - application/json
       description: get on photo data from photo ID
       parameters:
       - description: photoID you want to retrieve
@@ -238,7 +445,27 @@ paths:
         type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: get photo
       tags:
       - Photo
@@ -252,15 +479,35 @@ paths:
         name: photoID
         required: true
         type: string
-      - description: data is mandatory
+      - description: request is mandatory
         in: body
-        name: data
+        name: request
         required: true
         schema:
           $ref: '#/definitions/model.PhotoUpdateRequest'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: update photo
       tags:
       - photo
@@ -270,24 +517,64 @@ paths:
       - application/json
       description: register your account to MyGram App
       parameters:
-      - description: data is mandatory
+      - description: request is mandatory
         in: body
-        name: data
+        name: request
         required: true
         schema:
           $ref: '#/definitions/model.UserRegisterRequest'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
       summary: register account
       tags:
       - User
   /socialmedia:
     get:
+      consumes:
+      - application/json
       description: get all social media data to the database
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: get all social media
       tags:
       - Social Media
@@ -296,20 +583,42 @@ paths:
       - application/json
       description: add social media data to the database
       parameters:
-      - description: data is mandatory
+      - description: request is mandatory
         in: body
-        name: data
+        name: request
         required: true
         schema:
           $ref: '#/definitions/model.SocialCreateRequest'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: add social media
       tags:
       - Social Media
   /socialmedia/{socialmediaID}:
     delete:
+      consumes:
+      - application/json
       description: delete a social media by socialmediaID
       parameters:
       - description: socialmediaID you want to retrieve
@@ -319,11 +628,33 @@ paths:
         type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: delete a social media
       tags:
       - Social Media
     get:
+      consumes:
+      - application/json
       description: get on social media data from socialmedia ID
       parameters:
       - description: socialmediaID you want to retrieve
@@ -333,7 +664,27 @@ paths:
         type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: get social media
       tags:
       - Social Media
@@ -347,31 +698,41 @@ paths:
         name: socialmediaID
         required: true
         type: string
-      - description: data is mandatory
+      - description: request is mandatory
         in: body
-        name: data
+        name: request
         required: true
         schema:
           $ref: '#/definitions/model.SocialUpdateRequest'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.ErrorResponse'
+            - properties:
+                errors:
+                  type: object
+              type: object
+      security:
+      - BearerAuth: []
       summary: update social media
       tags:
       - Social Media
-  /user/profile:
-    get:
-      description: get user profile using token info
-      parameters:
-      - description: userID you want to retrieve
-        in: path
-        name: userID
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses: {}
-      summary: get user profile
-      tags:
-      - User
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

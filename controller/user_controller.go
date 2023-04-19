@@ -27,8 +27,10 @@ func NewUserController(userService service.UserService) *UserController {
 // @tags User
 // @accept json
 // @produce json
-// @param data body model.UserRegisterRequest true "data is mandatory"
-// @succes 200 {object} model.SuccessResponse
+// @param request body model.UserRegisterRequest true "request is mandatory"
+// @succes 200 {object} model.SuccessResponse{data=model.UserRegisterResponse}
+// @failure	400	{object} model.ErrorResponse{errors=interface{}}
+// @failure	500	{object} model.ErrorResponse{errors=interface{}}
 // @router /register [POST]
 func (uc *UserController) Register(ctx *gin.Context) {
 	request := model.UserRegisterRequest{}
@@ -90,8 +92,10 @@ func (uc *UserController) Register(ctx *gin.Context) {
 // @tags User
 // @accept json
 // @produce json
-// @param data body model.UserLoginRequest true "data is mandatory"
-// @succes 200 {object} model.SuccessResponse
+// @param request body model.UserLoginRequest true "request is mandatory"
+// @succes 200 {object} model.SuccessResponse{data=model.UserLoginResponse}
+// @failure	400	{object} model.ErrorResponse{errors=interface{}}
+// @failure	500	{object} model.ErrorResponse{errors=interface{}}
 // @router /login [POST]
 func (uc *UserController) Login(ctx *gin.Context) {
 	request := model.UserLoginRequest{}
@@ -140,14 +144,6 @@ func (uc *UserController) Login(ctx *gin.Context) {
 	})
 }
 
-// GetProfile godoc
-// @summary get user profile
-// @description get user profile using token info
-// @tags User
-// @param userID path string true "userID you want to retrieve"
-// @produce json
-// @succes 200 {object} model.UserProfileResponse
-// @router /user/profile [GET]
 func (uc *UserController) GetProfile(ctx *gin.Context) {
 	userID, isExist := ctx.Get("userID")
 	if !isExist {

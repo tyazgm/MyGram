@@ -23,10 +23,13 @@ func NewSocialController(socialService service.SocialService) *SocialController 
 // @summary add social media
 // @description add social media data to the database
 // @tags Social Media
-// @produce json
 // @accept json
-// @param data body model.SocialCreateRequest true "data is mandatory"
-// @succes 200 {object} model.SuccessResponse
+// @produce json
+// @param request body model.SocialCreateRequest true "request is mandatory"
+// @succes 200 {object} model.SuccessResponse{data=*model.SocialResponse}
+// @failure	400	{object} model.ErrorResponse{errors=interface{}}
+// @failure	500	{object} model.ErrorResponse{errors=interface{}}
+// @security BearerAuth
 // @router /socialmedia [POST]
 func (sc *SocialController) CreateSocial(ctx *gin.Context) {
 	var request model.SocialCreateRequest
@@ -87,8 +90,12 @@ func (sc *SocialController) CreateSocial(ctx *gin.Context) {
 // @summary get all social media
 // @description get all social media data to the database
 // @tags Social Media
+// @accept json
 // @produce json
-// @succes 200 {object} model.SuccessResponse
+// @succes 200 {object} model.SuccessResponse{data=model.[]SocialResponse}
+// @failure	400	{object} model.ErrorResponse{errors=interface{}}
+// @failure	500	{object} model.ErrorResponse{errors=interface{}}
+// @security BearerAuth
 // @router /socialmedia [GET]
 func (sc *SocialController) GetAll(ctx *gin.Context) {
 	response, err := sc.socialService.GetAll()
@@ -113,8 +120,12 @@ func (sc *SocialController) GetAll(ctx *gin.Context) {
 // @description get on social media data from socialmedia ID
 // @tags Social Media
 // @param socialmediaID path string true "socialmediaID you want to retrieve"
+// @accept json
 // @produce json
-// @succes 200 {object} model.SuccessResponse
+// @succes 200 {object} model.SuccessResponse{data=model.SocialResponse}
+// @failure	400	{object} model.ErrorResponse{errors=interface{}}
+// @failure	500	{object} model.ErrorResponse{errors=interface{}}
+// @security BearerAuth
 // @router /socialmedia/{socialmediaID} [GET]
 func (sc *SocialController) GetOne(ctx *gin.Context) {
 	socialMediaID := ctx.Param("socialmediaID")
@@ -141,10 +152,13 @@ func (sc *SocialController) GetOne(ctx *gin.Context) {
 // @description update social media by socialmediaID
 // @tags Social Media
 // @param socialmediaID path string true "socialmediaID you want to retrieve"
-// @param data body model.SocialUpdateRequest true "data is mandatory"
+// @param request body model.SocialUpdateRequest true "request is mandatory"
 // @accept json
 // @produce json
-// @succes 200 {object} model.SuccessResponse
+// @succes 200 {object} model.SuccessResponse{data=model.SocialUpdateResponse}
+// @failure	400	{object} model.ErrorResponse{errors=interface{}}
+// @failure	500	{object} model.ErrorResponse{errors=interface{}}
+// @security BearerAuth
 // @router /socialmedia/{socialmediaID} [PUT]
 func (sc *SocialController) UpdateSocialMedia(ctx *gin.Context) {
 	var request model.SocialUpdateRequest
@@ -209,8 +223,12 @@ func (sc *SocialController) UpdateSocialMedia(ctx *gin.Context) {
 // @description delete a social media by socialmediaID
 // @tags Social Media
 // @param socialmediaID path string true "socialmediaID you want to retrieve"
+// @accept json
 // @produce json
-// @succes 200 {object} model.SuccessResponse
+// @succes 200 {object} model.SuccessResponse{data=model.SocialDeleteResponse}
+// @failure	400	{object} model.ErrorResponse{errors=interface{}}
+// @failure	500	{object} model.ErrorResponse{errors=interface{}}
+// @security BearerAuth
 // @router /socialmedia/{socialmediaID} [DELETE]
 func (sc *SocialController) DeleteSocialMedia(ctx *gin.Context) {
 	socialID := ctx.Param("socialmediaID")

@@ -5,6 +5,7 @@ import (
 	"MyGram/route"
 
 	"github.com/gin-gonic/gin"
+
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -16,6 +17,10 @@ var PORT string = ":8080"
 // @version 1.0
 // @host localhost:8080
 // @protocol http
+// @BasePath /
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func main() {
 	router := gin.Default()
 
